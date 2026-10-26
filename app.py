@@ -12,7 +12,7 @@ st.set_page_config(
     page_title="Khwezi Mining | Monitoring System",
     page_icon="⛏️",
     layout="wide",
-    initial_sidebar_state="expanded" if st.session_state.get("logged_in", False) else "collapsed"
+    initial_sidebar_state="collapsed"
 )
 
 # ==========================================
@@ -68,7 +68,7 @@ image_path = Path(__file__).parent / "mining_bg.png"
 
 background_css = ""
 
-if image_path.exists() and not st.session_state.logged_in:
+if image_path.exists():
     encoded_image = base64.b64encode(
         image_path.read_bytes()
     ).decode("utf-8")
