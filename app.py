@@ -1,7 +1,6 @@
 
 import streamlit as st
 import base64
-import textwrap
 from pathlib import Path
 
 # ==========================================
@@ -43,10 +42,10 @@ if image_path.exists():
     """
 
 # ==========================================
-# 3. CUSTOM DESIGN AND COLOURS
+# 3. CUSTOM CSS STYLING
 # ==========================================
 
-st.markdown(f"""
+st.html(f"""
 <style>
 
 .stApp {{
@@ -69,10 +68,6 @@ header[data-testid="stHeader"] {{
     visibility: hidden;
 }}
 
-h1, h2, h3, p {{
-    color: white;
-}}
-
 /* COMPANY BRAND */
 
 .brand {{
@@ -89,7 +84,7 @@ h1, h2, h3, p {{
     margin-top: 7px;
 }}
 
-/* MAIN HERO */
+/* HERO SECTION */
 
 .hero {{
     padding-top: 55px;
@@ -128,7 +123,7 @@ h1, h2, h3, p {{
     max-width: 540px;
 }}
 
-/* LOGIN FORM */
+/* LOGIN PANEL */
 
 div[data-testid="stForm"] {{
     background: rgba(12, 24, 42, 0.91);
@@ -215,6 +210,22 @@ div[data-testid="stFormSubmitButton"] button:hover {{
     color: #CFD8E4;
 }}
 
+/* SYSTEM STATUS */
+
+.system-status {{
+    background: rgba(12, 24, 42, 0.8);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 25px;
+    padding: 12px 16px;
+    color: #E8F5EE;
+    font-size: 14px;
+    text-align: center;
+}}
+
+.status-dot {{
+    color: #26D67A;
+}}
+
 /* FOOTER */
 
 .footer {{
@@ -225,7 +236,7 @@ div[data-testid="stFormSubmitButton"] button:hover {{
     padding-bottom: 10px;
 }}
 
-/* MOBILE */
+/* RESPONSIVE DESIGN */
 
 @media (max-width: 768px) {{
     .hero {{
@@ -247,18 +258,15 @@ div[data-testid="stFormSubmitButton"] button:hover {{
 }}
 
 </style>
-""", unsafe_allow_html=True)
+""")
 
 
 # ==========================================
-# 4. HELPER FOR HTML
+# 4. HTML HELPER - FIXED
 # ==========================================
 
 def show_html(html):
-    st.markdown(
-        textwrap.dedent(html).strip(),
-        unsafe_allow_html=True
-    )
+    st.html(html)
 
 
 # ==========================================
@@ -272,13 +280,19 @@ with header_left:
     <div class="brand">
         ⛏️ KHWEZI MINING
     </div>
+
     <div class="tagline">
         SAFE PEOPLE | RELIABLE EQUIPMENT | SMARTER OPERATIONS
     </div>
     """)
 
 with header_right:
-    st.success("● System Online")
+    show_html("""
+    <div class="system-status">
+        <span class="status-dot">●</span>
+        System Online
+    </div>
+    """)
 
 
 # ==========================================
@@ -411,3 +425,4 @@ show_html("""
     Health, Safety & Equipment Monitoring System
 </div>
 """)
+
