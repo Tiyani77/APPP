@@ -1,121 +1,95 @@
-    </div>
-    """)
 
-with right:
-    with st.form("login_form"):
+import streamlit as st
+import base64
+import hmac
+from pathlib import Path
 
-        show_html("""
-        <div class="login-heading">
-            🔐 User Login
-        </div>
+# ==========================================
+# 1. PAGE CONFIGURATION
+# ==========================================
 
-        <div class="login-subtitle">
-            Access your account to continue
-        </div>
-        """)
+st.set_page_config(
+    page_title="Khwezi Mining | Monitoring System",
+    page_icon="⛏️",
+    layout="wide",
+    initial_sidebar_state="expanded" if st.session_state.get("logged_in", False) else "collapsed"
+)
 
-        username = st.text_input(
-            "Username",
-            placeholder="Enter your username"
-        )
+# ==========================================
+# 2. LOGIN SESSION MANAGEMENT
+# ==========================================
 
-        password = st.text_input(
-            "Password",
-            type="password",
-            placeholder="Enter your password"
-        )
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
 
-        submitted = st.form_submit_button(
-            "Login →",
-            use_container_width=True
-        )
+if "username" not in st.session_state:
+    st.session_state.username = None
 
-        if submitted:
+if "role" not in st.session_state:
+    st.session_state.role = None
 
-            if not username or not password:
-                st.warning(
-                    "Please enter your username and password."
-                )
 
-            else:
-                clean_username = username.strip()
+def authenticate_user(username, password):
+    """Verify login details stored in Streamlit secrets."""
 
-                role = authenticate_user(
-                    clean_username,
-                    password
-                )
+    try:
+        users = st.secrets["users"]
+    except (KeyError, FileNotFoundError):
+        return None
 
-                if role is not None:
-                    st.session_state.logged_in = True
-                    st.session_state.username = clean_username
-                    st.session_state.role = role
+    if username not in users:
+        return None
 
-                    st.rerun()
+    user = users[username]
 
-                else:
-                    st.error(
-                        "Invalid username or password."
-                    )
+    if hmac.compare_digest(
+        password.encode("utf-8"),
+        user["password"].encode("utf-8")
+    ):
+        return user["role"]
+
+    return None
+
+
+def logout_user():
+    """Log out the current user."""
+
+    st.session_state.logged_in = False
+    st.session_state.username = None
+    st.session_state.role = None
+    st.rerun()
 
 
 # ==========================================
-# 9. APPLICATION FEATURES
+# 3. BACKGROUND IMAGE
 # ==========================================
 
-st.write("")
-st.write("")
-st.write("")
+image_path = Path(__file__).parent / "mining_bg.png"
 
-features = [
-    (
-        "👷",
-        "Worker Safety",
-        "Monitor and record worker safety information"
-    ),
-    (
-        "🛡️",
-        "Incident Tracking",
-        "Identify and analyse safety incidents"
-    ),
-    (
-        "⚙️",
-        "Equipment Monitoring",
-        "Track equipment condition and performance"
-    ),
-    (
-        "🔧",
-        "Maintenance",
-        "Plan and manage maintenance activities"
-    ),
-    (
-        "📊",
-        "Data Analysis",
-        "Visualise data and generate reports"
-    )
-]
+background_css = """
+    background-image: none;
+    background-color: #081525;
+"""
 
-columns = st.columns(5, gap="small")
+if image_path.exists() and not st.session_state.logged_in:
+    encoded_image = base64.b64encode(
+        image_path.read_bytes()
+    ).decode("utf-8")
 
-for column, (icon, title, description) in zip(
-    columns, features
-):
-    with column:
-        show_html(f"""
-        <div class="feature-card">
-            <div class="feature-icon">{icon}</div>
-            <div class="feature-title">{title}</div>
-            <div class="feature-text">{description}</div>
-        </div>
-        """)
-
+    background_css = f"""
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(6, 16, 31, 0.94) 0%,
+            rgba(6, 16, 31, 0.78) 45%,
+            rgba(6, 16, 31, 0.42) 100%
+        ),
+        url("data:image/png;base64,{encoded_image}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    """
 
 # ==========================================
-# 10. FOOTER
+# 4. CUSTOM CSS STYLING
 # ==========================================
-
-show_html("""
-<div class="footer">
-    © 2026 Khwezi Mining |
-    Health, Safety & Equipment Monitoring System
-</div>
-""")
