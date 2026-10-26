@@ -1,6 +1,7 @@
 
 import streamlit as st
 import base64
+import hmac
 from pathlib import Path
 
 # ==========================================
@@ -15,7 +16,52 @@ st.set_page_config(
 )
 
 # ==========================================
-# 2. BACKGROUND IMAGE
+# 2. LOGIN SESSION MANAGEMENT
+# ==========================================
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if "username" not in st.session_state:
+    st.session_state.username = None
+
+if "role" not in st.session_state:
+    st.session_state.role = None
+
+
+def authenticate_user(username, password):
+    """Verify login details stored in Streamlit secrets."""
+
+    try:
+        users = st.secrets["users"]
+    except (KeyError, FileNotFoundError):
+        return None
+
+    if username not in users:
+        return None
+
+    user = users[username]
+
+    if hmac.compare_digest(
+        password.encode("utf-8"),
+        user["password"].encode("utf-8")
+    ):
+        return user["role"]
+
+    return None
+
+
+def logout_user():
+    """Log out the current user."""
+
+    st.session_state.logged_in = False
+    st.session_state.username = None
+    st.session_state.role = None
+    st.rerun()
+
+
+# ==========================================
+# 3. BACKGROUND IMAGE
 # ==========================================
 
 image_path = Path(__file__).parent / "mining_bg.png"
@@ -42,7 +88,7 @@ if image_path.exists():
     """
 
 # ==========================================
-# 3. CUSTOM CSS STYLING
+# 4. CUSTOM CSS STYLING
 # ==========================================
 
 st.html(f"""
@@ -226,6 +272,54 @@ div[data-testid="stFormSubmitButton"] button:hover {{
     color: #26D67A;
 }}
 
+/* DASHBOARD */
+
+.dashboard-card {{
+    background: rgba(12, 24, 42, 0.92);
+    border: 1px solid rgba(245,189,80,0.25);
+    border-radius: 18px;
+    padding: 25px;
+    margin-top: 20px;
+}}
+
+.dashboard-title {{
+    font-size: 38px;
+    font-weight: 800;
+    color: #F5BD50;
+}}
+
+.dashboard-text {{
+    font-size: 17px;
+    color: #D7DFE9;
+    line-height: 1.7;
+}}
+
+.role-badge {{
+    display: inline-block;
+    background: rgba(245,189,80,0.14);
+    color: #F5BD50;
+    padding: 10px 18px;
+    border-radius: 25px;
+    border: 1px solid rgba(245,189,80,0.4);
+    font-weight: 700;
+    margin-top: 12px;
+}}
+
+/* LOGOUT BUTTON */
+
+div[data-testid="stButton"] button {{
+    background: #F5BD50;
+    color: #101827;
+    border: none;
+    border-radius: 9px;
+    font-weight: 750;
+}}
+
+div[data-testid="stButton"] button:hover {{
+    background: #FFD477;
+    color: #101827;
+}}
+
 /* FOOTER */
 
 .footer {{
@@ -262,7 +356,7 @@ div[data-testid="stFormSubmitButton"] button:hover {{
 
 
 # ==========================================
-# 4. HTML HELPER - FIXED
+# 5. HTML HELPER
 # ==========================================
 
 def show_html(html):
@@ -270,7 +364,68 @@ def show_html(html):
 
 
 # ==========================================
-# 5. HEADER
+# 6. AUTHENTICATED DASHBOARD
+# ==========================================
+
+if st.session_state.logged_in:
+
+    show_html("""
+    <div class="brand">
+        ⛏️ KHWEZI MINING
+    </div>
+    <div class="tagline">
+        HEALTH | SAFETY | EQUIPMENT MONITORING
+    </div>
+    """)
+
+    st.write("")
+    st.write("")
+
+    st.markdown("## Welcome to Khwezi Mining")
+
+    st.success(
+        f"Successfully logged in as "
+        f"{st.session_state.username}"
+    )
+
+    role = st.session_state.role
+
+    show_html(f"""
+    <div class="dashboard-card">
+
+        <div class="dashboard-title">
+            ⛏️ Mining Monitoring Dashboard
+        </div>
+
+        <p class="dashboard-text">
+            Welcome to the Khwezi Mining Health,
+            Safety and Equipment Monitoring System.
+        </p>
+
+        <div class="role-badge">
+            Your Role: {role}
+        </div>
+
+        <p class="dashboard-text">
+            Your monitoring dashboard is ready.
+            The available features will depend
+            on your assigned user role.
+        </p>
+
+    </div>
+    """)
+
+    st.write("")
+    st.write("")
+
+    if st.button("🚪 Logout"):
+        logout_user()
+
+    st.stop()
+
+
+# ==========================================
+# 7. COVER PAGE HEADER
 # ==========================================
 
 header_left, header_right = st.columns([3, 1])
@@ -296,7 +451,7 @@ with header_right:
 
 
 # ==========================================
-# 6. HERO SECTION AND LOGIN
+# 8. HERO SECTION AND LOGIN
 # ==========================================
 
 st.write("")
@@ -354,18 +509,35 @@ with right:
         )
 
         if submitted:
+
             if not username or not password:
                 st.warning(
                     "Please enter your username and password."
                 )
+
             else:
-                st.info(
-                    "Login authentication will be added next."
+                clean_username = username.strip()
+
+                role = authenticate_user(
+                    clean_username,
+                    password
                 )
+
+                if role is not None:
+                    st.session_state.logged_in = True
+                    st.session_state.username = clean_username
+                    st.session_state.role = role
+
+                    st.rerun()
+
+                else:
+                    st.error(
+                        "Invalid username or password."
+                    )
 
 
 # ==========================================
-# 7. APPLICATION FEATURES
+# 9. APPLICATION FEATURES
 # ==========================================
 
 st.write("")
@@ -416,7 +588,7 @@ for column, (icon, title, description) in zip(
 
 
 # ==========================================
-# 8. FOOTER
+# 10. FOOTER
 # ==========================================
 
 show_html("""
@@ -425,4 +597,3 @@ show_html("""
     Health, Safety & Equipment Monitoring System
 </div>
 """)
-
