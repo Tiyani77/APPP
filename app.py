@@ -1,7 +1,12 @@
 
 import streamlit as st
 import base64
+import textwrap
 from pathlib import Path
+
+# ==========================================
+# 1. PAGE CONFIGURATION
+# ==========================================
 
 st.set_page_config(
     page_title="Khwezi Mining | Monitoring System",
@@ -10,160 +15,285 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Load background image
+# ==========================================
+# 2. BACKGROUND IMAGE
+# ==========================================
+
 image_path = Path(__file__).parent / "mining_bg.png"
 
 background_css = ""
 
 if image_path.exists():
-    encoded = base64.b64encode(
+    encoded_image = base64.b64encode(
         image_path.read_bytes()
-    ).decode()
+    ).decode("utf-8")
 
     background_css = f"""
     background-image:
         linear-gradient(
             90deg,
-            rgba(8, 19, 35, 0.94),
-            rgba(8, 19, 35, 0.55)
+            rgba(6, 16, 31, 0.94) 0%,
+            rgba(6, 16, 31, 0.78) 45%,
+            rgba(6, 16, 31, 0.42) 100%
         ),
-        url("data:image/png;base64,{encoded}");
+        url("data:image/png;base64,{encoded_image}");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     """
 
+# ==========================================
+# 3. CUSTOM DESIGN AND COLOURS
+# ==========================================
+
 st.markdown(f"""
 <style>
-    .stApp {{
-        background-color: #0B1728;
-        {background_css}
-        color: #FFFFFF;
-    }}
 
-    header[data-testid="stHeader"] {{
-        background: transparent;
-    }}
+.stApp {{
+    background-color: #081525;
+    {background_css}
+    color: white;
+}}
 
-    .block-container {{
-        padding-top: 2rem;
-        max-width: 1300px;
-    }}
+header[data-testid="stHeader"] {{
+    background: transparent;
+}}
 
-    h1, h2, h3, p {{
-        color: #FFFFFF !important;
-    }}
+.block-container {{
+    max-width: 1450px;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}}
 
-    .brand {{
-        color: #F5BD50;
-        font-size: 20px;
-        font-weight: 800;
-        letter-spacing: 3px;
-        margin-bottom: 55px;
+#MainMenu {{
+    visibility: hidden;
+}}
+
+h1, h2, h3, p {{
+    color: white;
+}}
+
+/* COMPANY BRAND */
+
+.brand {{
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #F5BD50;
+}}
+
+.tagline {{
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #D6DCE6;
+    margin-top: 7px;
+}}
+
+/* MAIN HERO */
+
+.hero {{
+    padding-top: 55px;
+}}
+
+.hero-line {{
+    width: 65px;
+    height: 5px;
+    background: #F5BD50;
+    margin-bottom: 25px;
+}}
+
+.hero-title {{
+    font-size: clamp(44px, 5vw, 78px);
+    font-weight: 800;
+    line-height: 1.15;
+    color: white;
+    margin-bottom: 20px;
+}}
+
+.gold {{
+    color: #F5BD50;
+}}
+
+.subtitle {{
+    font-size: clamp(19px, 2vw, 27px);
+    font-weight: 650;
+    color: white;
+    margin-bottom: 25px;
+}}
+
+.description {{
+    font-size: 18px;
+    color: #D7DFE9;
+    line-height: 1.8;
+    max-width: 540px;
+}}
+
+/* LOGIN FORM */
+
+div[data-testid="stForm"] {{
+    background: rgba(12, 24, 42, 0.91);
+    border: 1px solid rgba(255,255,255,0.19);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}}
+
+.login-heading {{
+    text-align: center;
+    color: #F5BD50;
+    font-size: 29px;
+    font-weight: 750;
+    margin-bottom: 8px;
+}}
+
+.login-subtitle {{
+    text-align: center;
+    color: #CFD7E2;
+    font-size: 15px;
+    margin-bottom: 22px;
+}}
+
+div[data-testid="stForm"] label {{
+    color: white !important;
+    font-weight: 500;
+}}
+
+div[data-testid="stForm"] input {{
+    border-radius: 9px;
+}}
+
+div[data-testid="stFormSubmitButton"] button {{
+    background: #F5BD50;
+    color: #101827;
+    border: none;
+    border-radius: 9px;
+    min-height: 50px;
+    font-size: 16px;
+    font-weight: 750;
+    width: 100%;
+}}
+
+div[data-testid="stFormSubmitButton"] button:hover {{
+    background: #FFD477;
+    color: #101827;
+    border: none;
+}}
+
+/* FEATURE CARDS */
+
+.feature-card {{
+    background: rgba(9, 23, 41, 0.90);
+    border: 1px solid rgba(255,255,255,0.17);
+    border-radius: 17px;
+    padding: 25px 12px;
+    min-height: 205px;
+    text-align: center;
+    transition: all 0.3s ease;
+}}
+
+.feature-card:hover {{
+    transform: translateY(-5px);
+    border-color: #F5BD50;
+    background: rgba(19, 35, 55, 0.97);
+}}
+
+.feature-icon {{
+    font-size: 34px;
+    margin-bottom: 15px;
+}}
+
+.feature-title {{
+    font-size: 16px;
+    font-weight: 750;
+    color: white;
+    margin-bottom: 12px;
+}}
+
+.feature-text {{
+    font-size: 13px;
+    line-height: 1.6;
+    color: #CFD8E4;
+}}
+
+/* FOOTER */
+
+.footer {{
+    text-align: center;
+    color: #B9C4D2;
+    font-size: 12px;
+    margin-top: 35px;
+    padding-bottom: 10px;
+}}
+
+/* MOBILE */
+
+@media (max-width: 768px) {{
+    .hero {{
+        padding-top: 15px;
     }}
 
     .hero-title {{
-        font-size: clamp(44px, 5vw, 72px);
-        font-weight: 800;
-        line-height: 1.15;
-        margin-bottom: 18px;
-    }}
-
-    .gold {{
-        color: #F5BD50;
-    }}
-
-    .subtitle {{
-        font-size: 24px;
-        font-weight: 600;
-        margin-bottom: 25px;
-    }}
-
-    .description {{
-        font-size: 18px;
-        color: #D3DCE8 !important;
-        line-height: 1.8;
-        max-width: 550px;
-    }}
-
-    .login-heading {{
-        text-align: center;
-        color: #F5BD50;
-        font-size: 27px;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }}
-
-    div[data-testid="stForm"] {{
-        background: rgba(15, 27, 45, 0.85);
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 18px;
-        padding: 28px;
-    }}
-
-    .stButton button,
-    div[data-testid="stFormSubmitButton"] button {{
-        background-color: #F5BD50;
-        color: #101827;
-        font-weight: 800;
-        border: none;
-        border-radius: 9px;
-        width: 100%;
-        padding: 12px;
-    }}
-
-    .stButton button:hover,
-    div[data-testid="stFormSubmitButton"] button:hover {{
-        background-color: #FFD47B;
-        color: #101827;
+        font-size: 44px;
     }}
 
     .feature-card {{
-        background: rgba(10, 23, 40, 0.88);
-        border: 1px solid rgba(255,255,255,0.15);
-        border-radius: 15px;
-        padding: 22px 12px;
-        text-align: center;
         min-height: 170px;
     }}
 
-    .feature-icon {{
-        font-size: 32px;
-        margin-bottom: 12px;
+    .block-container {{
+        padding-left: 1rem;
+        padding-right: 1rem;
     }}
+}}
 
-    .feature-title {{
-        font-weight: 700;
-        font-size: 16px;
-        color: white;
-        margin-bottom: 8px;
-    }}
-
-    .feature-text {{
-        font-size: 13px;
-        color: #CBD5E1 !important;
-    }}
 </style>
 """, unsafe_allow_html=True)
 
 
-# Header
-st.markdown("""
-<div class="brand">
-    ⛏️ KHWEZI MINING
-    <span style="font-size:12px;color:#D3DCE8;">
-        &nbsp; | SAFE PEOPLE • RELIABLE EQUIPMENT
-    </span>
-</div>
-""", unsafe_allow_html=True)
+# ==========================================
+# 4. HELPER FOR HTML
+# ==========================================
+
+def show_html(html):
+    st.markdown(
+        textwrap.dedent(html).strip(),
+        unsafe_allow_html=True
+    )
 
 
-# Hero and login area
+# ==========================================
+# 5. HEADER
+# ==========================================
+
+header_left, header_right = st.columns([3, 1])
+
+with header_left:
+    show_html("""
+    <div class="brand">
+        ⛏️ KHWEZI MINING
+    </div>
+    <div class="tagline">
+        SAFE PEOPLE | RELIABLE EQUIPMENT | SMARTER OPERATIONS
+    </div>
+    """)
+
+with header_right:
+    st.success("● System Online")
+
+
+# ==========================================
+# 6. HERO SECTION AND LOGIN
+# ==========================================
+
+st.write("")
+
 left, right = st.columns([1.3, 1], gap="large")
 
 with left:
-    st.markdown("""
-    <div style="padding-top:45px;">
+    show_html("""
+    <div class="hero">
+        <div class="hero-line"></div>
+
         <div class="hero-title">
             Khwezi <span class="gold">Mining</span>
         </div>
@@ -178,18 +308,20 @@ with left:
             mining operations.
         </p>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 with right:
     with st.form("login_form"):
-        st.markdown("""
+
+        show_html("""
         <div class="login-heading">
             🔐 User Login
         </div>
-        <p style="text-align:center;color:#CBD5E1;">
+
+        <div class="login-subtitle">
             Access your account to continue
-        </p>
-        """, unsafe_allow_html=True)
+        </div>
+        """)
 
         username = st.text_input(
             "Username",
@@ -208,45 +340,74 @@ with right:
         )
 
         if submitted:
-            st.info(
-                "Login functionality will be added next."
-            )
+            if not username or not password:
+                st.warning(
+                    "Please enter your username and password."
+                )
+            else:
+                st.info(
+                    "Login authentication will be added next."
+                )
 
+
+# ==========================================
+# 7. APPLICATION FEATURES
+# ==========================================
 
 st.write("")
 st.write("")
 st.write("")
 
-# Feature cards
 features = [
-    ("👷", "Worker Safety", "Monitor worker safety information"),
-    ("🛡️", "Incident Tracking", "Record and analyse incidents"),
-    ("⚙️", "Equipment Monitoring", "Track equipment conditions"),
-    ("🔧", "Maintenance", "Manage equipment maintenance"),
-    ("📊", "Data Analysis", "Visualise data and reports")
+    (
+        "👷",
+        "Worker Safety",
+        "Monitor and record worker safety information"
+    ),
+    (
+        "🛡️",
+        "Incident Tracking",
+        "Identify and analyse safety incidents"
+    ),
+    (
+        "⚙️",
+        "Equipment Monitoring",
+        "Track equipment condition and performance"
+    ),
+    (
+        "🔧",
+        "Maintenance",
+        "Plan and manage maintenance activities"
+    ),
+    (
+        "📊",
+        "Data Analysis",
+        "Visualise data and generate reports"
+    )
 ]
 
 columns = st.columns(5, gap="small")
 
-for col, (icon, title, description) in zip(columns, features):
-    with col:
-        st.markdown(f"""
+for column, (icon, title, description) in zip(
+    columns, features
+):
+    with column:
+        show_html(f"""
         <div class="feature-card">
             <div class="feature-icon">{icon}</div>
             <div class="feature-title">{title}</div>
-            <p class="feature-text">{description}</p>
+            <div class="feature-text">{description}</div>
         </div>
-        """, unsafe_allow_html=True)
+        """)
 
 
-st.markdown("""
-<p style="
-    text-align:center;
-    color:#94A3B8 !important;
-    font-size:12px;
-    margin-top:45px;
-">
-    © 2026 Khwezi Mining | Health, Safety &
-    Equipment Monitoring System
-</p>
-""", unsafe_allow_html=True)
+# ==========================================
+# 8. FOOTER
+# ==========================================
+
+show_html("""
+<div class="footer">
+    © 2026 Khwezi Mining |
+    Health, Safety & Equipment Monitoring System
+</div>
+""")
