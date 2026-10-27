@@ -1,0 +1,13 @@
+Incident ID,Date,Time,Shift,Location,Department,Incident type,Severity,Injury status,Lost-time injury status,Cause,Corrective action,Incident status
+INC-01,2026-10-01,06:30,Night,Shaft 2,Haulage,Near Miss,Medium,None,No,Equipment slip,Inspected brakes,Closed
+INC-02,2026-10-03,14:15,Day,Crusher Plant,Crushing,Equipment Failure,High,Minor,Yes,Bearing seizure,Replaced bearing,Open
+INC-03,2026-10-04,22:10,Night,Level 4 Stope,Drilling,Ventilation Alert,Critical,None,No,Sensor failure,Calibrated sensor,Under Review
+INC-04,2026-10-05,09:45,Day,Haul Road B,Haulage,Slip/Fall,Low,None,No,Wet surface,Cleared debris,Closed
+INC-05,2026-10-06,19:00,Night,Processing Zone,Stope Operations,Electrical,High,Moderate,Yes,Faulty wiring,Isolated circuit,Open
+INC-06,2026-10-07,11:20,Day,Main Decline,Haulage,Collision,Critical,Severe,Yes,Blind corner speed,Driver retraining,Open
+INC-07,2026-10-08,03:15,Night,Ventilation Shaft 1,Ventilation,Gas Leak,High,Minor,Yes,Methane pocket,Cleared area and purged,Under Review
+INC-08,2026-10-09,08:00,Day,Mill Section,Crushing,Caught-in,High,Moderate,Yes,Unguarded pulley,Installed fixed guard,Closed
+INC-09,2026-10-10,15:45,Day,Level 2 Stope,Stope Operations,Ground Fall,Critical,Severe,Yes,Loose hanging rock,Scaling and bolting applied,Open
+INC-10,2026-10-11,20:30,Night,Shaft 1,Haulage,Near Miss,Low,None,No,Communication delay,Briefed hoist operators,Closed
+INC-11,2026-10-12,04:00,Night,Maintenance Bay,Drilling,Chemical Spill,Medium,Minor,No,Leaking hydraulic hose,Replaced hose and cleaned spill,Under Review
+INC-12,2026-10-12,10:15,Day,Crusher Plant,Crushing,Dust Exposure,Low,None,No,Extraction fan failure,Serviced fan motor,Closed

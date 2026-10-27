@@ -1,0 +1,16 @@
+Equipment ID,Equipment type,Manufacturer,Operating hours,Downtime,Temperature (°C),Vibration (mm/s),Fuel consumption (L/hr),Brake status,Tyre status,Engine status,Maintenance status
+TRK-012,Haul truck,Caterpillar,160,14,98.5,9.2,45.2,Optimal,Good,Running,Active
+EXC-004,Excavator,Komatsu,190,4,75.0,3.4,32.0,Optimal,Good,Running,Active
+DRL-008,Drilling machine,Atlas Copco,120,45,105.2,6.1,18.5,Warning,Fair,Running,Maintenance Due
+CRS-001,Crusher,Metso,150,30,82.0,5.5,0.0,Optimal,N/A,Running,Under Maintenance
+TRK-015,Haul truck,Caterpillar,80,60,79.1,4.2,48.0,Critical,Worn,Degraded,Overdue
+LDR-002,Loader,Volvo,198,2,68.2,2.8,24.1,Optimal,Good,Running,Active
+BLD-003,Bulldozer,Caterpillar,140,20,88.4,7.0,38.5,Optimal,Good,Running,Active
+SCR-001,Scraper winch,Joy Global,110,50,92.0,8.9,15.2,Warning,N/A,Degraded,Maintenance Due
+CNV-004,Conveyor,Sandvik,210,5,62.1,2.1,0.0,N/A,N/A,Running,Active
+TRK-022,Haul truck,Komatsu,175,10,91.3,5.0,43.8,Optimal,Good,Running,Active
+EXC-011,Excavator,Caterpillar,95,55,112.4,11.5,35.0,Warning,Worn,Degraded,Overdue
+DRL-003,Drilling machine,Sandvik,185,15,85.0,4.0,19.2,Optimal,Good,Running,Active
+BLD-009,Bulldozer,Komatsu,70,90,108.9,12.1,41.0,Critical,Worn,Degraded,Overdue
+CRS-005,Crusher,Metso,200,8,76.5,3.9,0.0,Optimal,N/A,Running,Active
+LDR-008,Loader,Volvo,105,40,99.8,8.2,26.5,Warning,Fair,Running,Maintenance Due

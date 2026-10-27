@@ -1,0 +1,21 @@
+Worker_ID,Department,Job_Role,Shift,PPE_Compliant,Safety_Training_Completed,Fatigue_Level_1_to_5,Safety_Observations,Near_Misses,Previous_Incidents,Risk_Level
+W001,Mining,Drill Operator,Day,Yes,Yes,2,No unsafe observations,0,0,Low
+W002,Mining,LHD Operator,Night,No,Yes,4,Missing eye protection in work area,1,1,High
+W003,Engineering,Maintenance Technician,Day,Yes,Yes,3,Oil spill near workshop entrance,0,0,Medium
+W004,Processing,Plant Operator,Night,Yes,No,4,Worker unfamiliar with updated procedure,1,0,High
+W005,Mining,Blaster Assistant,Day,Yes,Yes,1,No unsafe observations,0,0,Low
+W006,Engineering,Fitter,Night,Yes,Yes,5,Reported severe fatigue near end of shift,0,1,High
+W007,Processing,Conveyor Attendant,Day,No,No,3,PPE not worn correctly near conveyor,2,1,High
+W008,Mining,Haul Truck Operator,Night,Yes,Yes,4,Near miss during reversing manoeuvre,1,0,Medium
+W009,Engineering,Electrician,Day,Yes,Yes,2,Damaged cable identified and isolated,0,0,Low
+W010,Processing,Crusher Operator,Night,Yes,Yes,3,Dust-control check required,0,0,Medium
+W011,Mining,Drill Operator,Night,Yes,Yes,4,Fatigue reported after extended work,1,0,High
+W012,Engineering,Maintenance Technician,Day,Yes,No,2,Training refresher outstanding,0,0,Medium
+W013,Processing,Plant Operator,Day,Yes,Yes,1,No unsafe observations,0,0,Low
+W014,Mining,LHD Operator,Night,Yes,Yes,5,High fatigue; supervisor notified,2,1,Critical
+W015,Engineering,Fitter,Day,No,Yes,3,Gloves not worn during task,0,0,High
+W016,Processing,Conveyor Attendant,Night,Yes,Yes,2,Guarding inspection completed,0,0,Low
+W017,Mining,Haul Truck Operator,Day,Yes,Yes,3,Near miss at loading point,1,0,Medium
+W018,Engineering,Electrician,Night,Yes,Yes,4,Fatigue and reduced concentration reported,0,1,High
+W019,Processing,Crusher Operator,Day,Yes,Yes,2,Dust suppression operating normally,0,0,Low
+W020,Mining,Blaster Assistant,Night,Yes,No,3,Safety refresher required before assigned task,1,0,High
